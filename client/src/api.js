@@ -6,6 +6,11 @@ function subscribeToTimer(cb) {
   socket.emit('subscribeToTimer', 1000);
 }
 
+function createDrawing(name) {
+  socket.emit('createDrawing', { name });
+}
+
 export {
   subscribeToTimer,
+  createDrawing,
 };

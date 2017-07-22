@@ -1,13 +1,29 @@
 const r = require('rethinkdb');
 const io = require('socket.io')();
 
+function createDrawing({ connection, name }) {
+  return r.table('drawings')
+  .insert({
+    name,
+    timestamp: new Date(),
+  })
+  .run(connection)
+  .then(() => console.log('created a new drawing with name ', name));
+}
+
 
 r.connect({
   host: 'localhost',
   port: 28015,
-  db: 'awesome_whiteboard'
+  db: 'awesome_whiteboard_2'
 }).then((connection) => {
   io.on('connection', (client) => {
+    client.on('createDrawing', ({ name }) => {
+      createDrawing({ connection, name });
+    });
+
+
+
     client.on('subscribeToTimer', (interval) => {
       // console.log('client is subscribing to timer with interval ', interval);
       // setInterval(() => {
