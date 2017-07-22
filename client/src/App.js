@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import DrawingForm from './DrawingForm';
+import DrawingList from './DrawingList';
 import { subscribeToTimer } from './api';
 
 
@@ -29,6 +30,8 @@ class App extends Component {
         </div>
 
         <DrawingForm />
+
+        <DrawingList />
       </div>
     );
   }

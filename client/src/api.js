@@ -6,6 +6,12 @@ function subscribeToTimer(cb) {
   socket.emit('subscribeToTimer', 1000);
 }
 
+function subscribeToDrawings(cb) {
+  socket.on('drawing', drawing => cb(null, drawing));
+  socket.emit('subscribeToDrawings');
+}
+
+
 function createDrawing(name) {
   socket.emit('createDrawing', { name });
 }
@@ -13,4 +19,5 @@ function createDrawing(name) {
 export {
   subscribeToTimer,
   createDrawing,
+  subscribeToDrawings,
 };
