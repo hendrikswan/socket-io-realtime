@@ -1,37 +1,46 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import DrawingForm from './DrawingForm';
 import DrawingList from './DrawingList';
-import { subscribeToTimer } from './api';
-
+import Drawing from './Drawing';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+  };
 
-    subscribeToTimer((err, timestamp) => {
-      this.setState({
-        timestamp
-      });
+  selectDrawing = (drawing) => {
+    this.setState({
+      selectedDrawing: drawing,
     });
   }
 
-  state = {
-    timestamp: 'no timestamp yet'
-  };
-
   render() {
+    let ctrl = (
+      <div>
+        <DrawingForm />
+
+        <DrawingList
+          selectDrawing={this.selectDrawing}
+        />
+      </div>
+    );
+
+    if (this.state.selectedDrawing) {
+      ctrl = (
+        <Drawing
+          drawing={this.state.selectedDrawing}
+          key={this.state.selectedDrawing.id}
+        />
+      );
+    }
+
     return (
       <div className="App">
         <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+          <h2>Our awesome drawing app</h2>
         </div>
 
-        <DrawingForm />
-
-        <DrawingList />
+        { ctrl }
       </div>
     );
   }

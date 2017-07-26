@@ -1,29 +1,42 @@
+html,body, #root { height: 100%; margin: 0px; padding: 0px; }
+
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css);
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500,700);
+
+
+body {
+  font-family: Roboto;
+  background-color: #E5E5E5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+
 .App {
-  text-align: center;
+  text-align: left;
+  height: 100%;
+  display: block;
+  margin: 10px;
 }
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
-  height: 80px;
 }
 
 .App-header {
   background-color: #222;
-  height: 150px;
-  padding: 20px;
+  padding: 5px;
+  padding-left: 20px;
   color: white;
+  margin-bottom: 20px;
 }
 
 .App-intro {
   font-size: large;
 }
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-
 
 .Drawing {
    height: 100%;
@@ -103,3 +116,4 @@
   padding: 10px;
   font-size: 20px;
 }
+

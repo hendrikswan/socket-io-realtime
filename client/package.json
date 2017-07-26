@@ -5,6 +5,7 @@
   "dependencies": {
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "simple-react-canvas": "^0.0.1",
     "socket.io-client": "^2.0.3"
   },
   "devDependencies": {

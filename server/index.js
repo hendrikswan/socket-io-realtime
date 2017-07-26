@@ -20,6 +20,12 @@ function subscribeToDrawings({ client, connection }) {
   });
 }
 
+function handleLinePublish({ connection, line }) {
+  console.log('saving line to the db')
+  r.table('lines')
+  .insert(Object.assign(line, { timestamp: new Date() }))
+  .run(connection);
+}
 
 r.connect({
   host: 'localhost',
@@ -36,23 +42,10 @@ r.connect({
       connection,
     }));
 
-
-
-    client.on('subscribeToTimer', (interval) => {
-      // console.log('client is subscribing to timer with interval ', interval);
-      // setInterval(() => {
-      //   client.emit('timer', new Date());
-      // }, interval);
-      return r.table('timers')
-      .changes()
-      .run(connection)
-      .then((cursor) => {
-        cursor.each((err, timerRow) => {
-          client.emit('timer', timerRow.new_val.timestamp);
-        });
-      });
-    });
-
+    client.on('publishLine', (line) => handleLinePublish({
+      line,
+      connection,
+    }));
   });
 });
 
