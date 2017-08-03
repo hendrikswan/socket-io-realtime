@@ -1,6 +1,8 @@
 import openSocket from 'socket.io-client';
 import Rx from 'rxjs/Rx';
-const socket = openSocket('http://localhost:8000');
+
+const port = parseInt(window.location.search.replace('?', ''), 10) || 8000;
+const socket = openSocket(`http://localhost:${port}`);
 
 function subscribeToDrawings(cb) {
   //todo: don't use node style callbacks
@@ -27,8 +29,25 @@ function subscribeToDrawingLines(drawingId, cb) {
   .bufferTime(100)
   .map(lines => ({ lines }));
 
+  const reconnectStream = Rx.Observable.fromEventPattern(
+    h => socket.on('connect', h),
+    h => socket.off('connect', h),
+  );
+
+  const maxStream = lineStream.map(l => new Date(l.timestamp).getTime()).scan((a, b) => ((a > b) ? a : b), 0);
+
+  reconnectStream
+  .withLatestFrom(maxStream)
+  .subscribe((joined) => {
+    const lastReceivedTimestamp = joined[1];
+    socket.emit('subscribeToDrawingLines', { drawingId, from: lastReceivedTimestamp });
+  });
+
+  //todo: make app port aware, so that we can have a disconnected one that handles deltas
+
+
   bufferedTimeStream.subscribe(linesEvent => cb(linesEvent));
-  socket.emit('subscribeToDrawingLines', drawingId);
+  socket.emit('subscribeToDrawingLines', { drawingId });
 }
 
 export {
