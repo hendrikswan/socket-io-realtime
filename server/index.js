@@ -30,7 +30,7 @@ function handleLinePublish({ connection, line }) {
 function subscribeToDrawingLines({ client, connection, drawingId}) {
   return r.table('lines')
   .filter(r.row('drawingId').eq(drawingId))
-  .changes({ include_initial: true, include_types: true, include_states: true })
+  .changes({ include_initial: true, include_types: true })
   .run(connection)
   .then((cursor) => {
     cursor.each((err, lineRow) => client.emit(`drawingLine:${drawingId}`, lineRow.new_val));

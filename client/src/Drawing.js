@@ -10,7 +10,6 @@ class Drawing extends Component {
   componentDidMount() {
     subscribeToDrawingLines(this.props.drawing.id, (line) => {
       this.setState((prevState) => {
-        debugger;
         return {
           lines: [...prevState.lines, line],
         };
