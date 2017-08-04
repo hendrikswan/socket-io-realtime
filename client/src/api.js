@@ -50,9 +50,17 @@ function subscribeToDrawingLines(drawingId, cb) {
   socket.emit('subscribeToDrawingLines', { drawingId });
 }
 
+
+function subscribeToConnectionEvent(cb) {
+  socket.on('connect', () => cb({ state: 'connected', port }));
+  socket.on('disconnect', () => cb({ state: 'disconnected', port }));
+  socket.on('connect_error', () => cb({ state: 'disconnected', port }));
+}
+
 export {
   publishLine,
   createDrawing,
   subscribeToDrawings,
   subscribeToDrawingLines,
+  subscribeToConnectionEvent,
 };
