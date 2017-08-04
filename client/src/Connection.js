@@ -8,9 +8,10 @@ class Connection extends Component {
 
   constructor(props) {
     super(props);
-    subscribeToConnectionEvent((connectionState) => {
+    subscribeToConnectionEvent(({ state: connectionState, port }) => {
       this.setState({
         connectionState,
+        port,
       });
     });
   }
@@ -32,7 +33,10 @@ class Connection extends Component {
     }
 
     return (
-      <div className="Connection">{content}</div>
+      <div className="Connection">
+        <div className="Connection-port">Socket port: {this.state.port}</div>
+        {content}
+      </div>
     );
   }
 }
