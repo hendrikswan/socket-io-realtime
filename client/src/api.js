@@ -31,9 +31,16 @@ function subscribeToDrawingLines(drawingId, cb) {
   socket.emit('subscribeToDrawingLines', drawingId);
 }
 
+function subscribeToConnectionEvent(cb) {
+  socket.on('connect', () => cb('connected'));
+  socket.on('disconnect', () => cb('disconnected'));
+  socket.on('connect_error', () => cb('disconnected'));
+}
+
 export {
   publishLine,
   createDrawing,
   subscribeToDrawings,
   subscribeToDrawingLines,
+  subscribeToConnectionEvent,
 };
